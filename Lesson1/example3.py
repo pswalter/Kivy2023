@@ -22,14 +22,16 @@ class Application(App):
         layout.add_widget(self.secondNumberInput)
 
         # Third Row
-        self.calculateButton = Button(text="Multiply")
-        self.calculateButton.bind(on_press=self.handle_click)
+        # When button is pressed, self.handle_click is called with
+        #  the button instance (self.calculateButton) as an argument 
+        self.calculateButton = Button(text="Multiply", on_press=self.handle_click)
         layout.add_widget(self.calculateButton)
-
         self.resultLabel = Label(text="")
         layout.add_widget(self.resultLabel)
 
-    def handle_click(self):
+        return layout
+
+    def handle_click(self, button):
         result = self.get_first_number() * self.get_second_number()
         self.resultLabel.text = "Result: " + str(result)
 
@@ -38,4 +40,7 @@ class Application(App):
     
     def get_second_number(self):
         return int(self.secondNumberInput.text)
-        
+
+if __name__ == "__main__":
+    myApp = Application()
+    myApp.run()
