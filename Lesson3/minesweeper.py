@@ -1,3 +1,17 @@
+"""
+The basic logic of Minesweeper game:
+* positions mines randomly on a grid
+* calculates number of mines adjacent to each square
+* reveals each cell when clicked
+
+Not supported at this stage:
+* flagging mined cells using right-click
+* restarting game
+* revealing more cells when blank clicked.
+
+Better design, allowing to support these features will appear in later lessons.
+"""
+
 import random
 import kivy
 from kivy.app import App
