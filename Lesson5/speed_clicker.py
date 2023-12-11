@@ -40,7 +40,7 @@ class AppLayout(BoxLayout):
 
         self.time_label = Label(text='Time: 0', font_size=FONT_SIZE)
         self.score_label = Label(text='Clicks: 0', font_size=FONT_SIZE,
-                                 on_touch_down=self.handle_click)
+                                 on_touch_down =self.handle_click)
         self.play_button = Button(text='START', font_size=FONT_SIZE,
                                   on_press=self.toggle_active)
         
@@ -59,7 +59,7 @@ class AppLayout(BoxLayout):
         # Uncomment the lines below to see the instance and the event
         # print("Instance:", instance)
         # print("Event:", event)
-        if self.is_active and instance.collide_point(*event.pos):
+        if self.is_active and event.button == "left" and instance.collide_point(*event.pos):
             self.click_count += 1
             self.score_label.text = f"Clicks: {self.click_count}"
 
