@@ -21,15 +21,18 @@ class Application(App):
         self.pokemonData = {}
 
     def update_label(self):
-        for pokemon in self.pokemonData:
+        self.pokemonDataLabel.text = ''
+        for pokemon in self.pokemonData[:5]:
             self.pokemonDataLabel.text += f"{pokemon['name']}: {pokemon['hp']}\n"
+        if len(self.pokemonData) > 5:
+            self.pokemonDataLabel.text += '...'
 
     def build(self):
         layout = BoxLayout(orientation="vertical")
         self.pokemonNameInput = TextInput(multiline=False)
         layout.add_widget(self.pokemonNameInput)
         
-        self.fetchButton = Button(text="Fetch Pokemon Data", on_click=self.handle_click)
+        self.fetchButton = Button(text="Fetch Pokemon Data", on_press=self.handle_click)
         layout.add_widget(self.fetchButton)
 
         self.pokemonDataLabel = Label(text="")
@@ -40,9 +43,11 @@ class Application(App):
 
     def handle_click(self, button):
         if button.text != 'Fetch Pokemon Data': return
-        self.pokemonData = fetch_pokemon_data(self.pokemonNameInput.text)
-        print('Fetched data: ', self.pokemonData)
-        # self.update_label()
+        fetched_data = fetch_pokemon_data(self.pokemonNameInput.text)
+        print('Fetched data: ', fetched_data)
+        if fetched_data and 'data' in fetched_data.keys():
+            self.pokemonData = fetched_data['data']
+            self.update_label()
 
 
 if __name__ == "__main__":
