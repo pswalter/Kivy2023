@@ -8,8 +8,16 @@ from kivy.uix.boxlayout import BoxLayout
 
 import requests
 
+# Maximum number of rows to display in output label
+MAX_ROWS = 5
+
+# Use https://docs.pokemontcg.io for details on data format.
+
 def fetch_pokemon_data(pokemon_name):
-    url = f"https://api.pokemontcg.io/v2/cards?q=name:{pokemon_name}"
+    # Finds information on all pokemons with given name.
+    # Returns a dictionary:
+    #   data: array of dictionaries, one describing each pokemon
+    url = f'https://api.pokemontcg.io/v2/cards?q=name:"{pokemon_name}"'
     response = requests.get(url)
     return response.json()
 
@@ -21,10 +29,11 @@ class Application(App):
         self.pokemonData = {}
 
     def update_label(self):
+        # Displays the information from self.pokemonData (list of dictionaries) in the output label.
         self.pokemonDataLabel.text = ''
-        for pokemon in self.pokemonData[:5]:
-            self.pokemonDataLabel.text += f"{pokemon['name']}: {pokemon['hp']}\n"
-        if len(self.pokemonData) > 5:
+        for pokemon in self.pokemonData[:MAX_ROWS]:
+            self.pokemonDataLabel.text += f"{pokemon['name']} ({pokemon['set']['name']}) : {pokemon['hp']}HP\n"
+        if len(self.pokemonData) > MAX_ROWS:
             self.pokemonDataLabel.text += '...'
 
     def build(self):
@@ -42,12 +51,17 @@ class Application(App):
 
 
     def handle_click(self, button):
-        if button.text != 'Fetch Pokemon Data': return
+
+        # Fetch data from API
+
         fetched_data = fetch_pokemon_data(self.pokemonNameInput.text)
         print('Fetched data: ', fetched_data)
+  
+        # Only update information if data is valid and nonempty.
         if fetched_data and 'data' in fetched_data.keys():
             self.pokemonData = fetched_data['data']
             self.update_label()
+
 
 
 if __name__ == "__main__":
