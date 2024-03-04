@@ -1,0 +1,26 @@
+#:kivy 1.0
+
+<FirstPlayerScreen>:
+    BoxLayout:
+        orientation: 'vertical'
+        Label:
+            text: root.results
+        Button:
+            text: 'Switch screen'
+            on_press: root.manager.current = 'Second'
+        Button:
+            text: 'Append'
+            on_press: root.append_character()
+
+<SecondPlayerScreen>:
+    BoxLayout:
+        orientation: 'vertical'
+        Label:
+            text: root.results
+        Button:
+            text: 'Switch screen'
+            on_press: root.manager.current = 'First'
+        Button:
+            text: 'Append'
+            on_press: root.append_character()
+
