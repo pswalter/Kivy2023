@@ -4,9 +4,12 @@
     BoxLayout:
         orientation: 'vertical'
         Label:
+            # root is the <FirstPlayerScreen> object which inherits from Screen
             text: root.results
         Button:
             text: 'Switch screen'
+            # an instance of Screen has a property of 'manager', which is a pointer to its parent ScreenManager
+            # it is automatically set when adding the instance as a widget to its parent.
             on_press: root.manager.current = 'Second'
         Button:
             text: 'Append'
